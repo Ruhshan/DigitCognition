@@ -59,7 +59,7 @@ def detect(img):
         dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     
-    model_file_path = 'model.sav'
+    model_file_path = 'data/model.sav'
     loaded_model = pickle.load(open(model_file_path, 'rb'))
 
     base_x = Image.open("data/base.png")
@@ -68,7 +68,6 @@ def detect(img):
     res = ""
     ct = 0
     for contour in contours:
-        print("Contouring")
         [x,y,w,h] = cv2.boundingRect(contour)
         area = w*h
         #print(area)
@@ -85,7 +84,6 @@ def detect(img):
             grayed = cv2.cvtColor(open_cv, cv2.COLOR_BGR2GRAY)
             gf = grayed.flatten() 
             p=loaded_model.predict([gf])
-            print(p, area)
             res+=str(p[0])
     cv2.imwrite("rectx.png", image)
 
