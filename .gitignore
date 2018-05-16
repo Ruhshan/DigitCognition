@@ -233,3 +233,4 @@ venv.bak/
 
 .sav
 # End of https://www.gitignore.io/api/node,django,python,pycharm+all
+/data

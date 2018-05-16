@@ -12,7 +12,7 @@ from datetime import timedelta, datetime
 from .tests import *
 
 from .scan_helpers import *
-from .generate_helpers import *
+
 import json
 import os
 class ScanView(View):
@@ -108,3 +108,7 @@ class GetROIView(View):
         payload1 = request.POST['payload1']
         roi_metrics = process_payload_get_roi(payload1)
         return HttpResponse(json.dumps(roi_metrics))
+
+class DigitPageView(View):
+    def get(self, request):
+        return render(request, 'zapper/digit_page.html')

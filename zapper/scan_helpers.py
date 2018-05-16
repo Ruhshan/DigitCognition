@@ -1,85 +1,12 @@
 from imageprocessing.datatoimage import make_image
 from imageprocessing.roi_extraction import extract_roi, extract_roi_2, extract_roi_3
-from imageprocessing.detection import detect
 import cv2
 import numpy
 import itertools
 import imutils
 
-def best_candidate(chars):
-    unq = set(chars)
-    counts={}
-    for c in unq:
-        counts[chars.count(c)]=c
-    mx = max(counts.keys())
-    return counts[mx]
+from imageprocessing.detection import write_characters, detect
 
-def analyze_results(results):
-    valid_results = [result for result in results if len(result)==48]
-    from pprint import pprint
-    pprint(valid_results)
-
-    constructed_str=''
-    if len(valid_results)==0:
-        return "Zap again"
-    else:
-        for i in range(48):
-            chars=[]
-            for j in range(len(valid_results)):
-                chars.append(valid_results[j][i])
-            constructed_str+=best_candidate(chars)
-        
-        return constructed_str
-def locate_t(image):
-    try:
-        #img = cv2.imread('rotating.png',0)
-        #img.transpose(2,0,1).reshape(3,-1)
-        
-        img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        
-        template = cv2.imread('t_template.png', 0)
-        w, h = template.shape[::-1]
-
-        res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF)
-        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-        top_left = max_loc
-        return top_left
-    except:
-        return (0,0)
-
-def angle_correct_then_detect(roi):
-    results = []
-    for a in (0,90,180,270):
-        rotated = imutils.rotate_bound(roi, a)
-        if rotated.shape[0]>rotated.shape[1]:
-            cv2.imwrite("rotate_"+str(a)+".png", rotated)
-            t_location = locate_t(rotated)
-            print(a, "t_location", t_location)
-            #if t_location[0]>200 and t_location[1]>120:
-            cv2.imwrite("rotate_"+str(a)+"_sel.png", rotated)
-            try:
-                detected = detect(rotated, a)
-                print('detecting',a,detected)
-                detected = detected.replace('-','')
-                print("length ", len(detected))
-                if len(detected)==48:
-                    print("appended")
-                    results.append(detected)
-                    #sometimes correct code is returned from upside down code
-                    results.append(detected[::-1])
-            except:
-                print(a)
-    print(results)
-    decoded = []
-    for r in results:
-        decoded.append([decode(r), decode(r).count('-')])
-    min_unknown=48
-    code=''
-    for d in decoded:
-        if d[1]< min_unknown:
-            min_unknown = d[1]
-            code = d[0]
-    return code
 
 def process_payload(payload):
     """
@@ -99,27 +26,21 @@ def process_payload(payload):
 
     # Convertion of payload string to image array for opencv
     ret, img = make_image(payload)#ret is 0 when conversion is successful or 1 when not
-    result=''
+    result='Unable to detect'
     if ret == 0:
         cv2.imwrite('received.png', img)
         #img = cv2.imread('received.png')
-        # try:
-        #     roi = extract_roi_2(img)
-        #     if type(roi) == numpy.ndarray:
-        #         #trying to read the code from roi
-        #         print("trying to correct rotation")
-        #         result = angle_correct_then_detect(roi)
-        #         # detected = detect(roi)
-        #         # result=detected.replace('-','')
-        #     else:
-        #         #return HttpResponse("Zap again")
-        #         print("Unable to extract roi")
-        #         result="----------------"
-        # except:
-        #     result = "----------------"
+        try:
+            roi = extract_roi_2(img)
+            result = detect(roi) 
+            #cv2.imwrite("roi.png", roi)
+            #write_characters(roi)
+
+        except:
+            result = "----------------"
         # # When roi is extracted its a 2d array 
         
-    return "ok"
+    return result
 
 def get_combinations_map():
     with open('recognition.txt') as f:

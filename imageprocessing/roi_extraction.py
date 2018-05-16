@@ -297,7 +297,7 @@ def extract_roi(image):
 
 def extract_roi_2(img):
     #img = cv2.imread('received.png',)
-    img = cv2.resize(img, (600,480))
+    img = cv2.resize(img, (300,100))
     img_copy = img.copy()[:,:,::-1] # color channel plotting mess http://stackoverflow.com/a/15074748/2256243
     height = img.shape[0]
     width = img.shape[1]
@@ -344,68 +344,6 @@ def extract_roi_2(img):
                         squares.append(cnt)
 
     sorted_squares = sorted(squares, key=lambda square: rank(square, img))
-
-    # if len(sorted_squares) and rank(sorted_squares[0], img) < 3:
-    #     cv2.drawContours(img, squares, -1, (0,255,255), 1) # draw all found squares
-    #     cv2.drawContours(img, [sorted_squares[0]], -1, (0,255,60), 3)
-    #     awef = cv2.imwrite('./out/' + filename, img)
-    #     if awef:
-    #         print("yes")
-    #     with open('logs/square_found.csv', 'a') as csvfile:
-    #         writer = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
-    #         writer.writerow([filename, json.dumps(sorted_squares[0].tolist()), height, width])
-    # else:
-    #     with open("logs/squareless.txt", "a") as f:
-    #         f.write(filename + "\n")
-
-    ### Some plotting code
-    # plt.subplot2grid((2,5), (0,0)),plt.imshow(img_copy)
-    # plt.title('Original Image'), plt.xticks([]), plt.yticks([])
-    # gray = cv2.split(img_copy)[0]
-    # plt.subplot2grid((2,5), (0,1)),plt.imshow(gray, cmap = 'gray')
-    # plt.title('Single Channel'), plt.xticks([]), plt.yticks([])
-    # # plt.title('Original Image'), plt.xticks([]), plt.yticks([])
-    # dilated = cv2.dilate(src = gray, kernel = kernel, anchor = (-1,-1))
-    # plt.subplot2grid((2,5), (0,2)),plt.imshow(dilated, cmap = 'gray')
-    # plt.title('Dilated'), plt.xticks([]), plt.yticks([])
-    # blured = cv2.medianBlur(dilated, 7)
-    # plt.subplot2grid((2,5), (0,3)),plt.imshow(blured, cmap = 'gray')
-    # plt.title('Median Filter'), plt.xticks([]), plt.yticks([])
-
-    # # Shrinking followed by expanding can be used for removing isolated noise pixels
-    # # another way to think of it is "enlarging the background"
-    # # http://www.cs.umb.edu/~marc/cs675/cvs09-12.pdf
-    # small = cv2.pyrDown(blured, dstsize = (int(width / 2), int(height / 2)))
-    # oversized = cv2.pyrUp(small, dstsize = (width, height))
-    # plt.subplot2grid((2,5), (0,4)),plt.imshow(oversized, cmap = 'gray')
-    # plt.title('Resized'), plt.xticks([]), plt.yticks([])
-
-    # edges = cv2.Canny(oversized, threshold1 = 0, threshold2 = 50, apertureSize = 3)
-    # plt.subplot2grid((2,5), (1,0)),plt.imshow(edges, cmap = 'gray')
-    # plt.title('Canny Edges'), plt.xticks([]), plt.yticks([])
-    # dilated = cv2.dilate(src = edges, kernel = kernel, anchor = (-1,-1))
-    # plt.subplot2grid((2,5), (1,1)),plt.imshow(dilated, cmap = 'gray')
-    # plt.title('Dilated'), plt.xticks([]), plt.yticks([])
-
-    # img_with_contours = img_copy.copy()
-    # cv2.drawContours(img_with_contours, all_contours, -1, (0,255,60), 3)
-    # plt.subplot2grid((2,5), (1,2)),plt.imshow(img_with_contours)
-    # plt.title('All Contours'), plt.xticks([]), plt.yticks([])
-
-    # img_with_squares = img_copy.copy()
-    # cv2.drawContours(img_with_squares, squares, -1, (0,255,60), 3)
-    # plt.subplot2grid((2,5), (1,3)),plt.imshow(img_with_squares)
-    # plt.title('All Rectangles'), plt.xticks([]), plt.yticks([])
-
-    # img_with_top_square = img_copy.copy()
-    # cv2.drawContours(img_with_top_square, [sorted_squares[0]], -1, (0,255,60), 3)
-    # plt.subplot2grid((2,5), (1,4)),plt.imshow(img_with_top_square)
-    # plt.title('Top Ranked Shape'), plt.xticks([]), plt.yticks([])
-
-    # #plt.show()
-    # img_with_top_square = img_copy.copy()
-    # cv2.drawContours(img_with_top_square, [sorted_squares[0]], -1, (0,255,60), 3)
-    #cv2.imshow('b', img_with_top_square)
 
     rect = cv2.minAreaRect(sorted_squares[0])
     #print('$$$$$$$$$$$$$$$$$\n',rect)
@@ -484,4 +422,3 @@ def extract_roi_3(img):
     # img_cropped = img_rotated[pts[1][1]:pts[0][1],
     #                    pts[1][0]:pts[2][0]]
     return roi_metrices
-    

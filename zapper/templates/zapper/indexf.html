@@ -42,13 +42,13 @@
         }
         .overlay_class_m{
             position: relative;
-            height: 30vh;
+            height: 10vh;
             width: 30vh;
             border: 5px solid rgb(15, 245, 187);
             overflow: hidden;
             z-index: 999;
             margin: auto;
-            margin-top: calc(50vh - 15vh);
+            margin-top: calc(50vh - 10vh);
         }
         
 
@@ -62,7 +62,7 @@
         <button id="zap">Zap</button>
     </div-->
     <div>
-        <h2 id="zap_return"></h2>
+        <h2 id="zap_return">Result will be here</h2>
     </div>
     <!--textarea class="code" rows="29" cols="100" id="codeEditor" spellcheck="false">
     </textarea-->
@@ -193,15 +193,15 @@
         var crop_y=100;
         // cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
         if(video.width==640 & video.height==480){
-            crop_x=160;
-            crop_y=100;
+            crop_x=200;
+            crop_y=200;
         }
         else{
             crop_x=100;
-            crop_y=240;
+            crop_y=280;
         }
         console.log(crop_x+"   "+crop_y);
-        let rect = new cv.Rect(crop_x,crop_y-20,300,200+40);
+        let rect = new cv.Rect(crop_x,crop_y-20,300,100);
         croped=src.roi(rect);
         let thresholded = new cv.Mat();
         let blurred = new cv.Mat();

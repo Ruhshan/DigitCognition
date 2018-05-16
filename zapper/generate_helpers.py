@@ -12,7 +12,7 @@ c = cv2.imread('shapes/circle.png', cv2.IMREAD_UNCHANGED)
 s = cv2.imread('shapes/sq_f.png', cv2.IMREAD_UNCHANGED) 
 
  
-
+ 
 t = cv2.cvtColor(t, cv2.COLOR_BGR2GRAY)
 c = cv2.cvtColor(c, cv2.COLOR_BGR2GRAY)
 s = cv2.cvtColor(s, cv2.COLOR_BGR2GRAY)

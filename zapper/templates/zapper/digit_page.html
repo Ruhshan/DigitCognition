@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+       @font-face { font-family: Open24; src: url(" {% static 'digital-7.ttf' %}"); }
+
+       .digit {
+         font-family: Open24;
+         font-size: 60px;
+         position: fixed;
+         left:30%;
+         top:30%;
+
+       }
+
+       .border
+        {
+          border-style:solid;
+          border-color:black;
+          padding: 10px;
+          width: 20%;
+          background-color: aquamarine;
+        };
+    </style>
+  </head>
+  <body>
+    
+    <div class="digit border">
+      &nbsp1&nbsp1&nbsp1456&nbsp1.789
+    </div>
+  </body>
+</html>
