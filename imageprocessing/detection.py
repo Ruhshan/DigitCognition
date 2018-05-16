@@ -2,6 +2,7 @@ import cv2
 import pickle
 from PIL import Image
 import numpy as np
+
 def write_characters(img):
     print("writiting")
     image = img
