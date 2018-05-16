@@ -1,5 +1,5 @@
 from imageprocessing.datatoimage import make_image
-from imageprocessing.roi_extraction import extract_roi, extract_roi_2, extract_roi_3
+from imageprocessing.roi_extraction import  extract_roi_2
 import cv2
 import numpy
 import itertools

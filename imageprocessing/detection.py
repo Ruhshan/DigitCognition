@@ -80,8 +80,8 @@ def detect(img):
             base.paste(imarr)
             #base.save("rec_{}.png".format(ct), "PNG")
             ct+=1
-            open_cv = np.array(base)
-            grayed = cv2.cvtColor(open_cv, cv2.COLOR_BGR2GRAY)
+            base = np.array(base)
+            grayed = cv2.cvtColor(base, cv2.COLOR_BGR2GRAY)
             gf = grayed.flatten() 
             p=loaded_model.predict([gf])
             res+=str(p[0])
